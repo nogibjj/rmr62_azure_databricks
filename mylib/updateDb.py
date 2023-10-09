@@ -2,7 +2,7 @@
 import sqlite3
 
 
-def update_db(conn:sqlite3.Connection=None, 
+def update_db(conn=None, 
               database:str="GroceryDB",
               query_str:str='')->None:
     """Update the database"""
