@@ -1,8 +1,7 @@
 """
 This module contains functions to transform and load data into a 
-local SQLite3 database. The SQLite3 database is created in the 
-current working directory. If the database already exists, it will 
-be overwritten.
+Azure Databricks SQL warehouse database table. If the table exists, it will be 
+overwritten. 
 """
 import csv
 from databricks import sql
@@ -11,27 +10,35 @@ import os
 
 def create_and_load_db(dataset:str="data/nba_22_23.csv", 
                        db_name:str="nba_players",
-                       sql_conn=None):
-    """"function to create a remote databricks sql database and load data into it. 
-    The data is transformed from a CSV file."""
+                       sql_conn=None, d_type_dict:dict=None):
+    """"Function to create a remote databricks sql database table and 
+    load data into it.vThe data is transformed from a CSV file."""
 
     with open(dataset, newline='') as csvfile:
         payload = list(csv.reader(csvfile, delimiter=','))
+        # filter out the nested lists that cointain ''
+        payload = [row for row in payload if '' not in row ]
+        # from the second row onwards, drop rows that contain 'Rk'
+        payload[1:] = [row for row in payload[1:] if 'Rk' not in row]
 
     column_names = [name.replace('%', 'Perc') if name else 'ID' for name in payload[0]]
     # replace the start of the string if its a number
-    column_nmess = [f"{name[1:]}{name[0]}" if name[0].isdigit() else 
+    column_names_raw = [f"{name[1:]}{name[0]}" if name[0].isdigit() else 
                     f"{name}" for name in column_names]
 
-    column_names = [f"{name[1:]}{name[0]} string" if name[0].isdigit() else 
-                    f"{name} string" for name in column_names]
+    if not d_type_dict:
+        d_type_dict = {"Tm": "STRING", "Player": "STRING", "Pos": "STRING", 
+                       'Rk': "STRING", "Age": "INT", "G": "FLOAT", 
+                       "GS": "FLOAT", "MP": "FLOAT"}
+
+    column_names = [f"{n} {d_type_dict.get(n, 'FLOAT')}" for n in column_names_raw]
     
     if not sql_conn:
         # connect to the remote databricks sql database
         conn = sql.connect(
                         server_hostname = "adb-2816916652498074.14.azuredatabricks.net",
                         http_path = "/sql/1.0/warehouses/2e1d07a8ec5d6691",
-                        access_token = os.getenv('ACCESS_TOKEN_DB'))
+                        access_token = "dapibf2166ad6dd03fac90b5e3160da32f9d-3")
         
         print(f"Database {db_name} created.")
     else:
@@ -40,18 +47,18 @@ def create_and_load_db(dataset:str="data/nba_22_23.csv",
     c = conn.cursor() # create a cursor
     # drop the table if it exists
     c.execute(f"DROP TABLE IF EXISTS {db_name}")
-    print(f"Excuted: DROP TABLE IF EXISTS {db_name}") 
+    print(f"Excuted: DROP TABLE IF EXISTS {db_name}")
+    c.execute("SET ansi_mode = false;")
     c.execute(f"CREATE TABLE IF NOT EXISTS {db_name} ({', '.join(column_names)})")
     print(f"Excuted: CREATE TABLE {db_name} ({', '.join(column_names)})")
     # insert the data from payload
-    payload[1:] = [f"{tuple(row)}" for row in payload[1:]]   
-    c.execute(f"INSERT INTO {db_name} ({', '.join(column_nmess)}) VALUES {', '.join(payload[1:])}")
-    
-    print(f"Excuted: INSERT INTO {db_name} VALUES" \
-                  f"({', '.join(['?']*len(column_names))})")
+    insert_to_tbl_stmt = f"INSERT INTO {db_name} ({', '.join(column_names_raw)}) VALUES ({', '.join(['%s']*len(column_names))})"
+    c.executemany(insert_to_tbl_stmt, payload[1:]) #load data into azure sql db
+    # c.execute()
     
     conn.commit()
     conn.close()
+    print(f"Data inserted into {db_name}.")
     
     return conn
 

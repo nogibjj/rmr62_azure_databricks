@@ -1,4 +1,5 @@
-"""This module contains functions to delete a table from remoe databricks sql database"""""
+"""This module contains functions to delete a table from remoe 
+databricks sql database"""""
 from databricks import sql
 import os
 

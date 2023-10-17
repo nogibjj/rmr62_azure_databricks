@@ -1,8 +1,8 @@
-## SQLite ETL (Extract, Transform, Load) CI (Continuous Intrigation) Framework
+## Azure DataBricks MySQL ETL (Extract, Transform, Load), CI (Continuous Intrigation), CLI
 ### By Rakeen Rouf
 [![CI](https://github.com/nogibjj/rmr_62_sqlite-lab/actions/workflows/cicd.yml/badge.svg)](https://github.com/nogibjj/rmr_62_sqlite-lab/actions/workflows/cicd.yml)
 
-This project serves as a comprehensive showcase of a custom Command Line Interface (CLI) tool tailored for seamless data management. It seamlessly handles the Extract, Transform, and Load (ETL) process, efficiently transferring data into a SQLite database. In addition, this repository exemplifies crucial CRUD (Create, Read, Update, Delete) operations, offering a holistic understanding of database management.
+This project serves as a comprehensive showcase of a custom Command Line Interface (CLI) tool tailored for seamless data management using a SQL warehouse on Azure Databricks. It seamlessly handles the Extract, Transform, and Load (ETL) process, efficiently transferring data into a SQLite database. In addition, this repository exemplifies crucial CRUD (Create, Read, Update, Delete) operations, offering a holistic understanding of database management.
 
 Explore the power of this custom CLI, empowering users to effortlessly handle data, from acquisition to advanced database operations.
 
@@ -19,15 +19,15 @@ Extracts data from the passed url to a csv file. The data must be in an HTML tab
 
 `create_and_load_db(dataset:str, db_name:str="GroceryDB", sql_conn:sqlite3.Connection=None) -> sqlite3.Connection` (in transform_load.py):
 
-Function to create a local SQLite3 database and load data into it.The data is transformed from a CSV file with appropriate format changes made.
+Function to create a MySQL database on Azure Databricks and load data into it.The data is transformed from a CSV file with appropriate format changes made.
 
 `update_db(conn:sqlite3.Connection=None, database:str="GroceryDB", query_str:str='') -> None` (in updateDb.py):
 
-Updates entries in the specified data base, based on the passed query. If query is left empty, this perform a defualt update on the `GroceryDb`
+Updates entries in the specified data base, based on the passed query. If query is left empty, this perform a defualt update on the `nba_players` table.
 
 `query(query_str:str='', db_name:str='GroceryDB', sql_conn:sqlite3.Connection=None) -> str` (in query.py):
 
-Function to query the database based on the passed query string. If query string is left blank then a couple of default queries are performed on the `GroceryDb`.
+Function to query the database based on the passed query string. If query string is left blank then a couple of default queries are performed on the `nva_players` table.
 
 `drop_data(db_name:str="GroceryDB.db", table_name:str="GroceryDB", sql_conn:sqlite3.Connection=None, condition="count_priducts = '11") -> None` (in delete_db.py):
 
