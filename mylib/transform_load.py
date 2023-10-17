@@ -38,7 +38,7 @@ def create_and_load_db(dataset:str="data/nba_22_23.csv",
         conn = sql.connect(
                         server_hostname = "adb-2816916652498074.14.azuredatabricks.net",
                         http_path = "/sql/1.0/warehouses/2e1d07a8ec5d6691",
-                        access_token = "dapibf2166ad6dd03fac90b5e3160da32f9d-3")
+                        access_token = os.getenv('ACCESS_TOKEN_DB'))
         
         print(f"Database {db_name} created.")
     else:
@@ -52,7 +52,8 @@ def create_and_load_db(dataset:str="data/nba_22_23.csv",
     c.execute(f"CREATE TABLE IF NOT EXISTS {db_name} ({', '.join(column_names)})")
     print(f"Excuted: CREATE TABLE {db_name} ({', '.join(column_names)})")
     # insert the data from payload
-    insert_to_tbl_stmt = f"INSERT INTO {db_name} ({', '.join(column_names_raw)}) VALUES ({', '.join(['%s']*len(column_names))})"
+    str_p1 = f"INSERT INTO {db_name} ({', '.join(column_names_raw)}) VALUES"
+    insert_to_tbl_stmt = f"{str_p1} ({', '.join(['%s']*len(column_names))})"
     c.executemany(insert_to_tbl_stmt, payload[1:]) #load data into azure sql db
     # c.execute()
     
