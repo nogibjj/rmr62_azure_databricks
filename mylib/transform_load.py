@@ -37,8 +37,8 @@ def create_and_load_db(dataset:str="data/nba_22_23.csv",
         # connect to the remote databricks sql database
         conn = sql.connect(
                         server_hostname = "adb-2816916652498074.14.azuredatabricks.net",
-                        http_path = "/sql/1.0/warehouses/2e1d07a8ec5d6691",
-                        access_token = os.getenv('ACCESS_TOKEN_DB'))
+                        http_path = os.getenv('http_path'),
+                        access_token = os.getenv('access_token'))
         
         print(f"Database {db_name} created.")
     else:

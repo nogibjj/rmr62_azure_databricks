@@ -3,6 +3,9 @@ summarizeApp
 #ignore fine-tuning
 test_trainer/
 
+# ignore credentials
+credentials.json
+
 #ignore pytorch artifacts
 data
 model.pth

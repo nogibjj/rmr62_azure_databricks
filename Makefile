@@ -23,3 +23,6 @@ deploy:
 	#deploy goes here
 		
 all: install lint test format deploy
+
+install-credentials:
+	python install_credentials.py
