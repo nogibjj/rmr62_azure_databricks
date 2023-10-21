@@ -20,7 +20,7 @@ Extracts data from the passed url to a csv file. The data must be in an HTML tab
 
 Function to create a Table on a Databricks SQL Warehouse and load data into it.The data is transformed from a CSV file with appropriate format changes made.
 
-dataset -> Link to CSV FIle to Load
+dataset -> Link to CSV FIle to load
 
 db_name -> Desired name for table
 

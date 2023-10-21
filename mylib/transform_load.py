@@ -6,6 +6,7 @@ overwritten.
 import csv
 from databricks import sql
 import os
+from install_credentials import install_credentials
 
 
 def create_and_load_db(dataset:str="data/nba_22_23.csv", 
@@ -35,8 +36,9 @@ def create_and_load_db(dataset:str="data/nba_22_23.csv",
     
     if not sql_conn:
         # connect to the remote databricks sql database
+        install_credentials()
         conn = sql.connect(
-                        server_hostname = "adb-2816916652498074.14.azuredatabricks.net",
+                        server_hostname = os.path.getenv('server_hostname'),
                         http_path = os.getenv('http_path'),
                         access_token = os.getenv('access_token'))
         

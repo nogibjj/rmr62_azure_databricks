@@ -25,4 +25,4 @@ deploy:
 all: install lint test format deploy
 
 install-credentials:
-	python install_credentials.py
+	python mylib/install_credentials.py

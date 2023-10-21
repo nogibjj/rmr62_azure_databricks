@@ -2,7 +2,7 @@ import os
 import json
 
 
-if __name__ == "__main__":
+def install_credentials():
     # Load credentials from JSON file
     try:
         with open("setup_credentials.json") as f:
@@ -19,3 +19,7 @@ if __name__ == "__main__":
             directory of this project. 
             Then run install_credentials.py."""
         )
+
+    
+if __name__ == "__main__":
+    install_credentials()
