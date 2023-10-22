@@ -51,6 +51,7 @@ Function to drop data based on the passed condition and table. The table must be
 
 #### `Creating` a new remote Databrick SQL Warehouse table for the 2022 2023 NBA player stats
 ![Alt text](https://user-images.githubusercontent.com/36940292/277147153-4ae9d95f-cfe2-4a95-8867-e613a788621e.png)
+![Alt text](https://user-images.githubusercontent.com/36940292/277149784-b48ee18c-ee7b-48ec-9489-c8d941cee962.png)
 
 #### `Updating` the rempte table to change Steven Adams's age to 27 (Before and after tabled are shown, with the update command in the middle)
 ![Alt text](https://user-images.githubusercontent.com/36940292/277147523-a731e34b-9427-440d-9220-79547f4a9099.png)
