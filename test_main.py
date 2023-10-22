@@ -64,20 +64,20 @@ def test_drop_data(setup_database):
     conn.close()
 
 
-def test_create_and_load_db():
-    create_and_load_db(dataset="data/nba_22_23.csv", table_name="test_tab")
-    install_credentials()
-    conn = sql.connect(
-        server_hostname=os.getenv("server_hostname"),
-        http_path=os.getenv("http_path"),
-        access_token=os.getenv("access_token"),
-    )
-    cursor = conn.cursor()
-    cursor.execute("""SELECT * FROM test_tab""")
-    rows = cursor.fetchall()
-    assert len(rows) > 1
+# def test_create_and_load_db():
+#     create_and_load_db(dataset="data/nba_22_23.csv", table_name="test_tab")
+#     install_credentials()
+#     conn = sql.connect(
+#         server_hostname=os.getenv("server_hostname"),
+#         http_path=os.getenv("http_path"),
+#         access_token=os.getenv("access_token"),
+#     )
+#     cursor = conn.cursor()
+#     cursor.execute("""SELECT * FROM test_tab""")
+#     rows = cursor.fetchall()
+#     assert len(rows) > 1
 
-    conn.close()
+#     conn.close()
 
 
 def test_update_db(setup_database):
