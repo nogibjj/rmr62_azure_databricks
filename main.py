@@ -31,7 +31,6 @@ if __name__ == "__main__":
     parser.add_argument(
         "-f", "--file", help="File path", default="data/GroceryDB_IgFPro.csv"
     )
-    parser.add_argument("-db", "--database", help="Database name", default="GroceryDB")
     parser.add_argument("-t", "--table", help="Table name", default="GroceryDB")
     parser.add_argument(
         "-o",
@@ -58,22 +57,22 @@ if __name__ == "__main__":
     conn = None
     if args.load:
         print("Creating DB and loading data...")
-        conn = create_and_load_db(args.file, args.database)
+        conn = create_and_load_db(args.file, args.table)
 
     # Update
     if args.update:
         print("Updating data...")
-        update_db(conn, args.database, args.update_str)
+        update_db(conn, args.update_str)
 
     # Read
     if args.query:
         print("Querying data...")
         if conn:
-            query(args.query_str, args.database, conn)
+            query(args.query_str, conn)
         else:
-            query(args.query_str, args.database)
+            query(args.query_str)
 
     # Deletion
     if args.delete:
         print("Deleting data...")
-        drop_data(args.database, args.table, conn, args.condition)
+        drop_data(table_name=args.table, sql_conn=conn, condition=args.condition)

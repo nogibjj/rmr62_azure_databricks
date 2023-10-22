@@ -1,24 +1,36 @@
-"""This module contains functions to delete a table from remoe 
-databricks sql database"""""
+"""This module contains functions to delete a table from a remote 
+databricks SQL warehouse database."""
 from databricks import sql
 import os
+try:
+    from mylib.install_credentials import install_credentials
+except ModuleNotFoundError:
+    from install_credentials import install_credentials
 
 
 def drop_data(table_name:str="nba_players", 
               sql_conn=None, 
-              condition="count_priducts = '11"):
-    """function to drop data based on condition and table"""
+              condition="Tm = 'LAL'"):
+    """Function to drop data based on a input condition and table name"""
     if not sql_conn:
+        install_credentials()
+        print("Credentials installed")
         conn = sql.connect(
-            server_hostname = "adb-2816916652498074.14.azuredatabricks.net",
-            http_path = "/sql/1.0/warehouses/2e1d07a8ec5d6691",
-            access_token = os.getenv('ACCESS_TOKEN_DB'))
+                    server_hostname = os.getenv('server_hostname'),
+                    http_path = os.getenv('http_path'),
+                    access_token = os.getenv('access_token'))
     else:
         conn = sql_conn
     
+
     cursor = conn.cursor()
     cursor.execute(f"DELETE FROM {table_name} WHERE {condition};")
     conn.commit()
     conn.close()
 
-    print(f"Table {table_name} dropped from Databricks sql database.")
+    print(f"EXECUTING: DELETE FROM {table_name} WHERE {condition};")
+    print(f"Records deleted from {table_name}")
+    
+if __name__ == '__main__':
+    drop_data() 
+    print("Executed: drop_data()")

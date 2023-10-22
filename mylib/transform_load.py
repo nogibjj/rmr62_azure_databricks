@@ -6,11 +6,14 @@ overwritten.
 import csv
 from databricks import sql
 import os
-from install_credentials import install_credentials
+try:
+    from install_credentials import install_credentials
+except ModuleNotFoundError:
+    from mylib.install_credentials import install_credentials
 
 
 def create_and_load_db(dataset:str="data/nba_22_23.csv", 
-                       db_name:str="nba_players",
+                       table_name:str="nba_players",
                        sql_conn=None, d_type_dict:dict=None):
     """"Function to create a remote databricks sql database table and 
     load data into it.vThe data is transformed from a CSV file."""
@@ -35,33 +38,33 @@ def create_and_load_db(dataset:str="data/nba_22_23.csv",
     column_names = [f"{n} {d_type_dict.get(n, 'FLOAT')}" for n in column_names_raw]
     
     if not sql_conn:
-        # connect to the remote databricks sql database
+        # connect to the remote databricks SAL Warehouse
         install_credentials()
         conn = sql.connect(
-                        server_hostname = os.path.getenv('server_hostname'),
+                        server_hostname = os.getenv('server_hostname'),
                         http_path = os.getenv('http_path'),
                         access_token = os.getenv('access_token'))
         
-        print(f"Database {db_name} created.")
+        print(f"Database {table_name} created.")
     else:
         conn = sql_conn
     
     c = conn.cursor() # create a cursor
     # drop the table if it exists
-    c.execute(f"DROP TABLE IF EXISTS {db_name}")
-    print(f"Excuted: DROP TABLE IF EXISTS {db_name}")
+    c.execute(f"DROP TABLE IF EXISTS {table_name}")
+    print(f"Excuted: DROP TABLE IF EXISTS {table_name}")
     c.execute("SET ansi_mode = false;")
-    c.execute(f"CREATE TABLE IF NOT EXISTS {db_name} ({', '.join(column_names)})")
-    print(f"Excuted: CREATE TABLE {db_name} ({', '.join(column_names)})")
+    c.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({', '.join(column_names)})")
+    print(f"Excuted: CREATE TABLE {table_name} ({', '.join(column_names)})")
     # insert the data from payload
-    str_p1 = f"INSERT INTO {db_name} ({', '.join(column_names_raw)}) VALUES"
+    str_p1 = f"INSERT INTO {table_name} ({', '.join(column_names_raw)}) VALUES"
     insert_to_tbl_stmt = f"{str_p1} ({', '.join(['%s']*len(column_names))})"
     c.executemany(insert_to_tbl_stmt, payload[1:]) #load data into azure sql db
     # c.execute()
     
     conn.commit()
     conn.close()
-    print(f"Data inserted into {db_name}.")
+    print(f"Data inserted into {table_name}.")
     
     return conn
 

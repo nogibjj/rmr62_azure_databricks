@@ -1,31 +1,37 @@
 """Update the database"""
-from install_credentials import install_credentials
 from databricks import sql
 import os
+try:
+    from install_credentials import install_credentials
+except ModuleNotFoundError:
+    from mylib.install_credentials import install_credentials
 
 
-def update_db(conn=None, 
-              database:str="nba_players",
+def update_db(conn=None,
               query_str:str='')->None:
     """Update the database"""
     if not conn:
         install_credentials()
+        print("Credentials installed")
         conn = sql.connect(
-                        server_hostname = os.path.getenv('server_hostname'),
+                        server_hostname = os.getenv('server_hostname'),
                         http_path = os.getenv('http_path'),
                         access_token = os.getenv('access_token'))
 
     cursor = conn.cursor()
+    print("Connected to database")
     
     if query_str == '':
-        cursor.execute("""UPDATE nba_players 
+        query_str = """UPDATE nba_players 
                         SET PTS = PTS + 1
-                        WHERE Tm = 'LAL';""")
+                        WHERE Tm = 'LAL';"""
+        cursor.execute(query_str)
     else:
         cursor.execute(query_str)
-    
+
     conn.commit()
 
+    print(f"Executed: {query_str}")
     print("Records updated")
 
 
