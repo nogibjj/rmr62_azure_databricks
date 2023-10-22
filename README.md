@@ -8,6 +8,8 @@ Explore the power of this custom CLI, empowering users to effortlessly handle da
 
 Note: Feel free to customize, enhance, and extend the capabilities of this versatile tool to suit your unique needs.
 
+** Remember to have valid credentials in the setup_credentials.json file in the root directoy
+
 ### Project Architecture
 ![Alt text](https://user-images.githubusercontent.com/36940292/277129478-736a7903-e074-4c11-9a77-f5c49df5b1d8.png)
 
