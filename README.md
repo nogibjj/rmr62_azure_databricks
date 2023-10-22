@@ -66,7 +66,7 @@ Common Table Expressions (CTEs)
 - `team_stats`: Calculates the average points, field goal percentage, defensive rebounds, offensive rebounds, turnovers, and ranking for each team in the NBA based on information from the `nba_players` table.
 - `min_max_values`: Calculates the minimum and maximum values for each statistic for each team based on the `nba_players` table.
 - `ranked_teams`: Calculates the normalized values for each statistic for each team based on the minimum and maximum values found in `min_max_values`. It also ranks each team based on its average points.
-- `ranked_teams_2`: Calculates a custom metric for each team by subtracting the normalized turnovers and ranking values from the normalized points value. It then ranks each team based on this custom metric.
+- `ranked_teams_2`: Calculates a custom metric for each team by subtracting the normalized turnovers and ranking values from the normalized points value. It then ranks and sorts each team based on this custom metric.
 
 Main query
 
