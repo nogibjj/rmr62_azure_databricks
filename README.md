@@ -1,6 +1,6 @@
 ## Azure DataBricks MySQL ETL (Extract, Transform, Load), CI (Continuous Intrigation), CLI
 ### By Rakeen Rouf
-[![CI](https://github.com/nogibjj/rmr_62_sqlite-lab/actions/workflows/cicd.yml/badge.svg)](https://github.com/nogibjj/rmr_62_sqlite-lab/actions/workflows/cicd.yml)
+[![CI](https://github.com/nogibjj/rmr62_azure_databricks/actions/workflows/cicd.yml/badge.svg)](https://github.com/nogibjj/rmr62_azure_databricks/actions/workflows/cicd.yml)
 
 This project serves as a comprehensive showcase of a custom Command Line Interface (CLI) tool tailored for seamless data management using a SQL warehouse on Azure Databricks. It seamlessly handles the Extract, Transform, and Load (ETL) processes, efficiently transferring data into a Databricks SQL Warehouse. In addition, this repository exemplifies crucial CRUD (Create, Read, Update, Delete) operations, offering a holistic understanding of database management.
 
@@ -57,7 +57,7 @@ Function to drop data based on the passed condition and table. The table must be
 
 #### `Reading` data from the SQL Warehouse nba_players table
 ##### This is a default example of a complex SQL Query on a Databrick SQL warehouse.
-![Alt text](https://user-images.githubusercontent.com/36940292/277147561-58af2a48-2840-4893-a156-70f3fd114652.png)
+![Alt text](https://user-images.githubusercontent.com/36940292/277148699-9f05d247-db27-469f-9ba8-192f9d8c97d1.png)
 
 This query is calculating certain statistics for NBA teams and then using those stats to rank them according to a custom metric. Here is a breakdown of the query:
 

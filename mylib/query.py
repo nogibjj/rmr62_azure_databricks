@@ -226,6 +226,7 @@ def query(query_str:str='',
                                     ranked_teams
                                 )
                                 SELECT
+                                team_rank,
                                 ranked_teams_2.Tm,
                                 ROUND(avg_pts, 2),
                                 ROUND(min_max_values.max_pts, 2) max_points,
@@ -235,15 +236,15 @@ def query(query_str:str='',
                                 ROUND(avg_tov, 2),
                                 ROUND(avg_rk, 2) avg_rannking,
                                 ROUND(min_max_values.min_rk, 2) min_ranking,
-                                ROUND(norm_pts - norm_tov - norm_rk, 2) as custom_metric
+                                ROUND(norm_pts - norm_tov + norm_drb, 2) 
+                                as custom_metric
                                 FROM
                                 ranked_teams_2
                                 LEFT JOIN 
                                 min_max_values on min_max_values.Tm = ranked_teams_2.Tm
                                 WHERE
                                 team_rank <= 10;"""
-        print("""Executing default query to display 
-              top ten teams by custom metric""")
+        print("Executing default query to display top ten teams by custom metric")
         cursor.execute(default_query_str)
 
         print("Query results:")

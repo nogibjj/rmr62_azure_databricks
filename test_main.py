@@ -22,6 +22,7 @@ def setup_database():
         access_token=os.getenv("access_token"),
     )
     cursor = conn.cursor()
+    cursor.execute("DROP TABLE IF EXISTS test_table")
     cursor.execute(
         """CREATE TABLE IF NOT EXISTS test_table
                       (id INT,
@@ -42,7 +43,6 @@ def setup_database():
 
 def test_drop_data(setup_database):
     drop_data(
-        db_name="test.db",
         table_name="test_table",
         condition="count_products = 11",
         sql_conn=setup_database,
@@ -65,7 +65,7 @@ def test_drop_data(setup_database):
 
 
 def test_create_and_load_db():
-    create_and_load_db(dataset="data/nba_22_23.csv", table_name="test")
+    create_and_load_db(dataset="data/nba_22_23.csv", table_name="test_tab")
     install_credentials()
     conn = sql.connect(
         server_hostname=os.getenv("server_hostname"),
@@ -73,7 +73,7 @@ def test_create_and_load_db():
         access_token=os.getenv("access_token"),
     )
     cursor = conn.cursor()
-    cursor.execute("""SELECT * FROM test""")
+    cursor.execute("""SELECT * FROM test_tab""")
     rows = cursor.fetchall()
     assert len(rows) > 1
 
@@ -95,8 +95,6 @@ def test_update_db(setup_database):
     rows = cursor.fetchall()
     assert rows[1][1] == "Rakeen"
     assert rows[1][2] == 11
-
-    os.remove("test.db")
 
     setup_database.close()
 
