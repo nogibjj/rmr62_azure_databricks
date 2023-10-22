@@ -16,9 +16,9 @@ import os
 def setup_database():
     install_credentials()
     conn = sql.connect(
-        server_hostname=os.getenv("server_hostname"),
-        http_path=os.getenv("http_path"),
-        access_token=os.getenv("access_token"),
+        server_hostname=os.environ["server_hostname".upper()],
+        http_path=os.environ["http_path".upper()],
+        access_token=os.environ["access_token".upper()],
     )
     cursor = conn.cursor()
     cursor.execute("DROP TABLE IF EXISTS test_table")
@@ -47,9 +47,9 @@ def test_drop_data(setup_database):
         sql_conn=setup_database,
     )
     conn = sql.connect(
-        server_hostname=os.getenv("server_hostname"),
-        http_path=os.getenv("http_path"),
-        access_token=os.getenv("access_token"),
+        server_hostname=os.environ["server_hostname".upper()],
+        http_path=os.environ["http_path".upper()],
+        access_token=os.environ["access_token".upper()],
     )
     cursor = conn.cursor()
     cursor.execute("""SELECT * FROM test_table""")
@@ -85,9 +85,9 @@ def test_update_db(setup_database):
         query_str="UPDATE test_table SET name = 'Rakeen' WHERE count_products = 11",
     )
     conn = sql.connect(
-        server_hostname=os.getenv("server_hostname"),
-        http_path=os.getenv("http_path"),
-        access_token=os.getenv("access_token"),
+        server_hostname=os.environ["server_hostname".upper()],
+        http_path=os.environ["http_path".upper()],
+        access_token=os.environ["access_token".upper()],
     )
     cursor = conn.cursor()
     cursor.execute("""SELECT * FROM test_table""")
