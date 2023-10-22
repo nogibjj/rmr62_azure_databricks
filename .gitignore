@@ -4,7 +4,7 @@ summarizeApp
 test_trainer/
 
 # ignore credentials
-credentials.json
+setup_credentials.json
 
 #ignore pytorch artifacts
 data
