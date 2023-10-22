@@ -4,7 +4,6 @@ Test goes here
 """
 import pytest
 from mylib.delete_db import drop_data
-from mylib.transform_load import create_and_load_db
 from mylib.updateDb import update_db
 from mylib.query import query
 from mylib.extract import extract
